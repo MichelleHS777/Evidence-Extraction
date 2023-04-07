@@ -29,7 +29,7 @@ def load_data(path, tokenizer):
         
         # 第一个模板
         prompt_line1 = prompt_templates[0].replace(replace_token, sent)
-        template_line1 = prompt_templates[0].replace(replace_token, replace_token * line_num)
+        template_line1 = prompt_templates[0].replace(replace_token, replace_token * line_num) #replace single word to multiple words
         # 第二个模板
         prompt_line2 = prompt_templates[1].replace(replace_token, sent)
         template_line2 = prompt_templates[1].replace(replace_token, replace_token * line_num)
