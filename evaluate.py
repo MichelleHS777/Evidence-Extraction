@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-pred_file = open('datasets/evidence/semantic/semantic_test.json', 'r', encoding='utf-8')
+pred_file = open('datasets/evidence/promptbert/prompt_test2.json', 'r', encoding='utf-8')
 gold_file = open('datasets/evidence/gold/gold_test.json', 'r', encoding='utf-8')
 
 

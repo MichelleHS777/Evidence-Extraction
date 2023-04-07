@@ -79,6 +79,7 @@ if __name__ == '__main__':
             sent2sim[ev_sent] = cosSimilarity(claim, ev_sent, model, tokenizer)
         sent2sim = list(sent2sim.items())
         sent2sim.sort(key=lambda s: s[1], reverse=True)
-        ev_sent = [s[0] for s in sent2sim[:5]]
+        # ev_sent = [s[0] for s in sent2sim[:5]]
+        ev_sent = [s[0] for s in sent2sim[:5] if s[1] > 0.8]
         data = json.dumps({'claimId': claimId, 'claim': claim, 'evidences': ev_sent, 'label':label}, ensure_ascii=False)
         save.write(data + "\n")
