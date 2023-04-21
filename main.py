@@ -9,15 +9,17 @@ from transformers import AdamW, get_linear_schedule_with_warmup
 from data_helper import load_data, SentDataSet, collate_func, convert_token_id
 import json
 
-device = torch.device("cuda")
+
+device = torch.device('cuda')
+print(device)
+
 max_length = 512
 args = set_args()
 dataset = open(args.test_data_path, 'r', encoding='utf-8')
 save = open(args.save_file, 'a+', encoding='utf-8')
 
-
 def get_similar_sentence():
-    model.load_state_dict(torch.load(f"./checkpoint/CHEF_train.ckpt"))
+    model.load_state_dict(torch.load(f"./checkpoint/train.ckpt"))
     model.eval()
     for data in tqdm(dataset, desc='getting similar sentence...'):
         data = eval(data)
@@ -32,8 +34,8 @@ def get_similar_sentence():
             sent2sim[ev_sent] = cosSimilarity(claim, ev_sent, model, tokenizer)
         sent2sim = list(sent2sim.items())
         sent2sim.sort(key=lambda s: s[1], reverse=True)
-        # ev_sent = [s[0] for s in sent2sim[:5] if s[1] > 0.8]
-        ev_sent = [s[0] for s in sent2sim[:5]]
+        ev_sent = [s[0] for s in sent2sim[:5] if s[1] > 0.8]
+        # ev_sent = [s[0] for s in sent2sim[:5]]
         data = json.dumps({'claimId': claimId, 'claim': claim, 'evidences': ev_sent, 'label': label}, ensure_ascii=False)
         save.write(data + "\n")
     save.close()
@@ -96,11 +98,14 @@ if __name__ == '__main__':
 
     train_df = load_data(args.train_data_path, tokenizer)
     train_dataset = SentDataSet(train_df, tokenizer)
-    num_samples = 10000
-    sampler = RandomSampler(train_dataset, num_samples=num_samples)
     train_dataloader = DataLoader(train_dataset,
                                   batch_size=args.train_batch_size,
-                                  collate_fn=collate_func, sampler=sampler)
+                                  collate_fn=collate_func)
+    # num_samples = 10000
+    # sampler = RandomSampler(train_dataset, num_samples=num_samples)
+    # train_dataloader = DataLoader(train_dataset,
+    #                               batch_size=args.train_batch_size,
+    #                               collate_fn=collate_func, sampler=sampler)
 
     num_train_steps = int(
         len(train_dataset) / args.train_batch_size / args.gradient_accumulation_steps * args.num_train_epochs)
@@ -162,9 +167,8 @@ if __name__ == '__main__':
                     scheduler.step()
                     optimizer.zero_grad()
         model_to_save = model.module if hasattr(model, 'module') else model  # Only save the model it-self
-        torch.save(model_to_save.state_dict(), f'./checkpoint/CHEF_train.ckpt')
+        torch.save(model_to_save.state_dict(), f'./checkpoint/train.ckpt')
 
     # Evaluate
     if args.eval:
-        # Get similar sentence
-        get_similar_sentence()
+        get_similar_sentence() # Get similar sentence

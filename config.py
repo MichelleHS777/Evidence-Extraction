@@ -7,7 +7,7 @@ def set_args():
     parser.add_argument('--eval', action="store_true", help='If evaluate or not')
     parser.add_argument('--train_data_path', default='./datasets/preprocessed/train.data', type=str, help='训练数据集')
     parser.add_argument('--test_data_path', default='./datasets/preprocessed/test.json', type=str, help='测试数据集')
-    parser.add_argument('--save_file', default='./datasets/evidences/promptbert/prompt_test.json', type=str, help='save file path')
+    parser.add_argument('--save_file', default='./datasets/evidences/promptbert/prompt_test2.json', type=str, help='save file path')
     parser.add_argument('--max_len', default=512, type=int, help='句子的最大长度')
     parser.add_argument('--train_batch_size', default=4, type=int, help='训练批次的大小')
     parser.add_argument('--dev_batch_size', default=4, type=int, help='训练批次的大小')

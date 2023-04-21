@@ -15,10 +15,11 @@ def load_data(path, tokenizer):
     with open(path, 'r', encoding='utf8') as f:
         for line in f.readlines():
             line = line.strip()
-            line = line.split('\t')
-            sentence.append(line[0])
-            sentence.append(line[1])
-        
+            sentence.append(line)
+            # line = line.split('\t')
+            # sentence.append(line[0])
+            # sentence.append(line[1])
+
     sent_prompt1, sent_template1, sent_prompt2, sent_template2 = [], [], [], []
     for sent in sentence:
         words_num = len(tokenizer.tokenize(sent))
@@ -26,10 +27,11 @@ def load_data(path, tokenizer):
             # 因为模板最大字符为15个  所以在最大长度上要减去模板的长度 才是真正文本的长度
             sent = sent[:(args.max_len - 15)]
         line_num = len(tokenizer.tokenize(sent))
-        
+
         # 第一个模板
         prompt_line1 = prompt_templates[0].replace(replace_token, sent)
-        template_line1 = prompt_templates[0].replace(replace_token, replace_token * line_num) #replace single word to multiple words
+        template_line1 = prompt_templates[0].replace(replace_token,
+                                                     replace_token * line_num)  # replace single word to multiple words
         # 第二个模板
         prompt_line2 = prompt_templates[1].replace(replace_token, sent)
         template_line2 = prompt_templates[1].replace(replace_token, replace_token * line_num)
@@ -44,18 +46,17 @@ def load_data(path, tokenizer):
     return df
 
 
-
 def convert_token_id(sent, tokenizer):
     # 定义的模板
     replace_token = "[X]"
     prompt_templates = ['"{}"，它的意思是[MASK]。'.format(replace_token), '"{}"，这句话的意思是[MASK]。'.format(replace_token)]
-    
+
     words_num = len(tokenizer.tokenize(sent))
     if words_num > args.max_len - 15:
         sent = sent[:(args.max_len - 15)]
-    
+
     line_num = len(tokenizer.tokenize(sent))
-    
+
     # 第一个模板
     prompt_line1 = prompt_templates[0].replace(replace_token, sent)
     template_line1 = prompt_templates[0].replace(replace_token, replace_token * line_num)
@@ -93,7 +94,6 @@ def convert_token_id(sent, tokenizer):
     all_sent_template1_attention_mask = torch.tensor([sent_template1_attention_mask], dtype=torch.long)
     all_sent_template1_token_type_ids = torch.tensor([sent_template1_token_type_ids], dtype=torch.long)
     return all_sent_prompt1_input_ids, all_sent_prompt1_attention_mask, all_sent_prompt1_token_type_ids, all_sent_template1_input_ids, all_sent_template1_attention_mask, all_sent_template1_token_type_ids
-    
 
 
 class SentDataSet(Dataset):
@@ -225,4 +225,3 @@ def collate_func(batch_data):
             all_sent_template1_input_ids, all_sent_template1_attention_mask, all_sent_template1_token_type_ids,
             all_sent_prompt2_input_ids, all_sent_prompt2_attention_mask, all_sent_prompt2_token_type_ids,
             all_sent_template2_input_ids, all_sent_template2_attention_mask, all_sent_template2_token_type_ids)
-    
