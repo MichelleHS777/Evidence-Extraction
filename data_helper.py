@@ -32,6 +32,9 @@ def load_data(path, tokenizer):
         prompt_line1 = prompt_templates[0].replace(replace_token, sent)
         template_line1 = prompt_templates[0].replace(replace_token,
                                                      replace_token * line_num)  # replace single word to multiple words
+        print('prompt_line1:', prompt_line1)
+        print('template_line1:', template_line1)
+
         # 第二个模板
         prompt_line2 = prompt_templates[1].replace(replace_token, sent)
         template_line2 = prompt_templates[1].replace(replace_token, replace_token * line_num)
@@ -54,7 +57,6 @@ def convert_token_id(sent, tokenizer):
     words_num = len(tokenizer.tokenize(sent))
     if words_num > args.max_len - 15:
         sent = sent[:(args.max_len - 15)]
-
     line_num = len(tokenizer.tokenize(sent))
 
     # 第一个模板
@@ -86,6 +88,7 @@ def convert_token_id(sent, tokenizer):
     sent_template1_input_ids = sent_template1_input['input_ids']
     sent_template1_attention_mask = sent_template1_input['attention_mask']
     sent_template1_token_type_ids = sent_template1_input["token_type_ids"]
+
     all_sent_prompt1_input_ids = torch.tensor([sent_prompt1_input_ids], dtype=torch.long)
     all_sent_prompt1_attention_mask = torch.tensor([sent_prompt1_attention_mask], dtype=torch.long)
     all_sent_prompt1_token_type_ids = torch.tensor([sent_prompt1_token_type_ids], dtype=torch.long)
@@ -225,3 +228,4 @@ def collate_func(batch_data):
             all_sent_template1_input_ids, all_sent_template1_attention_mask, all_sent_template1_token_type_ids,
             all_sent_prompt2_input_ids, all_sent_prompt2_attention_mask, all_sent_prompt2_token_type_ids,
             all_sent_template2_input_ids, all_sent_template2_attention_mask, all_sent_template2_token_type_ids)
+

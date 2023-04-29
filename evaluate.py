@@ -3,9 +3,8 @@ import re
 from tqdm import tqdm
 
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-pred_file = open('datasets/evidence/promptbert/prompt_test2.json', 'r', encoding='utf-8')
-gold_file = open('datasets/evidence/gold/gold_test.json', 'r', encoding='utf-8')
+pred_file = open('datasets/prompt_test_claim2.json', 'r', encoding='utf-8')
+gold_file = open('datasets/evidences/gold/gold_test.json', 'r', encoding='utf-8')
 
 
 precision = []
