@@ -1,9 +1,3 @@
-"""
-@file   : run_sentencebert.py
-@author : xiaolu
-@email  : luxiaonlp@163.com
-@time   : 2022-02-23
-"""
 import os
 import json
 import torch
@@ -39,9 +33,9 @@ def get_similar_sentence():
             sent2sim[ev_sent] = cosSimilarity(claim, ev_sent, model, tokenizer)
         sent2sim = list(sent2sim.items())
         sent2sim.sort(key=lambda s: s[1], reverse=True)
-        print(sent2sim[:5])
-        # ev_sent = [s[0] for s in sent2sim[:5] if s[1] > 0.8]
-        ev_sent = [s[0] for s in sent2sim[:5]]
+        ev_sent = [s[0] for s in sent2sim[:5] if s[1] > 0.8]
+        print(ev_sent)
+        # ev_sent = [s[0] for s in sent2sim[:5]]
         data = json.dumps({'claimId': claimId, 'claim': claim, 'evidences': ev_sent, 'label': label}, ensure_ascii=False)
         save.write(data + "\n")
     save.close()
@@ -49,7 +43,6 @@ def get_similar_sentence():
 
 def cosSimilarity(sent1, sent2, model, tokenizer):
     model.eval()
-    # 语料向量化
     s1_input_ids, s1_mask, s1_segment_id = convert_token_id(sent1, tokenizer)
     s2_input_ids, s2_mask, s2_segment_id = convert_token_id(sent2, tokenizer)
 
@@ -60,45 +53,8 @@ def cosSimilarity(sent1, sent2, model, tokenizer):
         s1_embeddings = model.encode(s1_input_ids, encoder_type='last-avg')
         s2_embeddings = model.encode(s2_input_ids, encoder_type='last-avg')
 
-        # claim_vec = s1_embeddings.cpu().numpy()
-        # sent_vec = s2_embeddings.cpu().numpy()
     cos_sim = F.cosine_similarity(s1_embeddings, s2_embeddings)
-    # cos_sim = np.dot(claim_vec, sent_vec) / (np.linalg.norm(claim_vec) * np.linalg.norm(sent_vec))
     return cos_sim.item()
-
-
-# def evaluate(model):
-#     model.eval()
-#     # 语料向量化
-#     all_a_vecs, all_b_vecs = [], []
-#     all_labels = []
-#     for step, batch in tqdm(enumerate(val_dataloader)):
-#         if torch.cuda.is_available():
-#             batch = (t.cuda() for t in batch)
-#         s1_input_ids, s2_input_ids, label_id = batch
-#         if torch.cuda.is_available():
-#             s1_input_ids, s2_input_ids, label_id = s1_input_ids.cuda(), s2_input_ids.cuda(), label_id.cuda()
-#         with torch.no_grad():
-#             s1_embeddings = model.encode(s1_input_ids, encoder_type='last-avg')
-#             s2_embeddings = model.encode(s2_input_ids, encoder_type='last-avg')
-#             s1_embeddings = s1_embeddings.cpu().numpy()
-#             s2_embeddings = s2_embeddings.cpu().numpy()
-#             label_id = label_id.cpu().numpy()
-#
-#             all_a_vecs.extend(s1_embeddings)
-#             all_b_vecs.extend(s2_embeddings)
-#             all_labels.extend(label_id)
-#
-#     all_a_vecs = np.array(all_a_vecs)
-#     all_b_vecs = np.array(all_b_vecs)
-#     all_labels = np.array(all_labels)
-#
-#     a_vecs = l2_normalize(all_a_vecs)
-#     b_vecs = l2_normalize(all_b_vecs)
-#     sims = (a_vecs * b_vecs).sum(axis=1)
-#     corrcoef = compute_corrcoef(all_labels, sims)
-#     pearsonr = compute_pearsonr(all_labels, sims)
-#     return corrcoef, pearsonr
 
 
 if __name__ == '__main__':
@@ -110,8 +66,6 @@ if __name__ == '__main__':
     train_df = load_data(args.train_data_path)
     train_dataset = SentDataSet(train_df, tokenizer)
     train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=args.train_batch_size, collate_fn=collate_func)
-
-
 
     num_train_steps = int(len(train_dataset) / args.train_batch_size / args.gradient_accumulation_steps * args.num_train_epochs)
 
@@ -174,4 +128,3 @@ if __name__ == '__main__':
     if args.eval:
         # Get similar sentence
         cossim = get_similar_sentence()
-        print(cossim)
