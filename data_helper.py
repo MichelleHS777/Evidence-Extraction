@@ -15,9 +15,8 @@ def load_data(path, tokenizer):
     with open(path, 'r', encoding='utf8') as f:
         for line in f.readlines():
             line = line.strip()
-            sentence.append(line)
             # line = line.split('\t')
-            # sentence.append(line[0])
+            sentence.append(line)
             # sentence.append(line[1])
 
     sent_prompt1, sent_template1, sent_prompt2, sent_template2 = [], [], [], []
@@ -32,8 +31,8 @@ def load_data(path, tokenizer):
         prompt_line1 = prompt_templates[0].replace(replace_token, sent)
         template_line1 = prompt_templates[0].replace(replace_token,
                                                      replace_token * line_num)  # replace single word to multiple words
-        print('prompt_line1:', prompt_line1)
-        print('template_line1:', template_line1)
+        # print('prompt_line1:', prompt_line1)
+        # print('template_line1:', template_line1)
 
         # 第二个模板
         prompt_line2 = prompt_templates[1].replace(replace_token, sent)

@@ -4,22 +4,19 @@ from tqdm import tqdm
 from model import PromptBERT
 from config import set_args
 from transformers.models.bert import BertTokenizer
-from torch.utils.data import DataLoader, RandomSampler
+from torch.utils.data import DataLoader
 from transformers import AdamW, get_linear_schedule_with_warmup
 from data_helper import load_data, SentDataSet, collate_func, convert_token_id
 import json
 
-
 device = torch.device('cuda')
-print(device)
-
-max_length = 512
 args = set_args()
 dataset = open(args.test_data_path, 'r', encoding='utf-8')
 save = open(args.save_file, 'a+', encoding='utf-8')
+save_out5 = open(args.save_file_out5, 'a+', encoding='utf-8')
 
 def get_similar_sentence():
-    model.load_state_dict(torch.load(f"./checkpoint/train.ckpt"))
+    model.load_state_dict(torch.load(f"./checkpoint/train_claim_sent.ckpt"))
     model.eval()
     for data in tqdm(dataset, desc='getting similar sentence...'):
         data = eval(data)
@@ -34,11 +31,24 @@ def get_similar_sentence():
             sent2sim[ev_sent] = cosSimilarity(claim, ev_sent, model, tokenizer)
         sent2sim = list(sent2sim.items())
         sent2sim.sort(key=lambda s: s[1], reverse=True)
+        print(sent2sim)
+
+        # get evidence sentence threshold > 0.8
         ev_sent = [s[0] for s in sent2sim[:5] if s[1] > 0.8]
-        # ev_sent = [s[0] for s in sent2sim[:5]]
-        data = json.dumps({'claimId': claimId, 'claim': claim, 'evidences': ev_sent, 'label': label}, ensure_ascii=False)
+        print('ev_sent:', ev_sent)
+        data = json.dumps({'claimId': claimId, 'claim': claim, 'evidences': ev_sent, 'label': label},
+                          ensure_ascii=False)
         save.write(data + "\n")
+
+        # get evidence sentence output 5
+        ev_sent_out5 = [s[0] for s in sent2sim[:5]]
+        print('ev_sent out5:', ev_sent_out5)
+        data = json.dumps({'claimId': claimId, 'claim': claim, 'evidences': ev_sent_out5, 'label': label},
+                          ensure_ascii=False)
+        save_out5.write(data + "\n")
+
     save.close()
+    save_out5.close()
 
 def cosSimilarity(sent1, sent2, model, tokenizer):
     model.eval()
@@ -49,6 +59,9 @@ def cosSimilarity(sent1, sent2, model, tokenizer):
     if torch.cuda.is_available():
         s1_input_id, s1_mask, s1_segment_id, s1_t_input_id, s1_t_mask, s1_t_segment_id = s1_input_id.cuda(), s1_mask.cuda(), s1_segment_id.cuda(), s1_t_input_id.cuda(), s1_t_mask.cuda(), s1_t_segment_id.cuda()
         s2_input_id, s2_mask, s2_segment_id, s2_t_input_id, s2_t_mask, s2_t_segment_id = s2_input_id.cuda(), s2_mask.cuda(), s2_segment_id.cuda(), s2_t_input_id.cuda(), s2_t_mask.cuda(), s2_t_segment_id.cuda()
+    else:
+        s1_input_id, s1_mask, s1_segment_id, s1_t_input_id, s1_t_mask, s1_t_segment_id = s1_input_id.cpu(), s1_mask.cpu(), s1_segment_id.cpu(), s1_t_input_id.cpu(), s1_t_mask.cpu(), s1_t_segment_id.cpu()
+        s2_input_id, s2_mask, s2_segment_id, s2_t_input_id, s2_t_mask, s2_t_segment_id = s2_input_id.cpu(), s2_mask.cpu(), s2_segment_id.cpu(), s2_t_input_id.cpu(), s2_t_mask.cpu(), s2_t_segment_id.cpu()
 
     with torch.no_grad():
         s1_embedding = model(prompt_input_ids=s1_input_id,
@@ -101,11 +114,6 @@ if __name__ == '__main__':
     train_dataloader = DataLoader(train_dataset,
                                   batch_size=args.train_batch_size,
                                   collate_fn=collate_func)
-    # num_samples = 10000
-    # sampler = RandomSampler(train_dataset, num_samples=num_samples)
-    # train_dataloader = DataLoader(train_dataset,
-    #                               batch_size=args.train_batch_size,
-    #                               collate_fn=collate_func, sampler=sampler)
 
     num_train_steps = int(
         len(train_dataset) / args.train_batch_size / args.gradient_accumulation_steps * args.num_train_epochs)
@@ -131,6 +139,7 @@ if __name__ == '__main__':
 
     # Training
     if args.train:
+        print('GPU:', torch.cuda.is_available())
         for epoch in range(args.num_train_epochs):
             model.train()
             for step, batch in enumerate(tqdm(train_dataloader, desc="Train")):
@@ -167,8 +176,9 @@ if __name__ == '__main__':
                     scheduler.step()
                     optimizer.zero_grad()
         model_to_save = model.module if hasattr(model, 'module') else model  # Only save the model it-self
-        torch.save(model_to_save.state_dict(), f'./checkpoint/train.ckpt')
+        torch.save(model_to_save.state_dict(), f'./checkpoint/train_claim_sent.ckpt')
 
     # Evaluate
     if args.eval:
-        get_similar_sentence() # Get similar sentence
+        # Get similar sentence
+        get_similar_sentence()
