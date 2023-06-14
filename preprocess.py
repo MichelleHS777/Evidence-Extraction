@@ -65,11 +65,11 @@ def preprocess_train(unpreprocess_file, save_file):
     
 
 def main():
-    trian_path = './datasets/train2'
+    trian_path = './datasets/train'
     if not os.path.isdir(trian_path):
         os.mkdir(trian_path)
     preprocess_train('./datasets/unpreprocess/train.json', 
-                       './datasets/train2/train.data')
+                       './datasets/train/train.data')
     
     predict_path = './datasets/predict'
     if not os.path.isdir(predict_path):
