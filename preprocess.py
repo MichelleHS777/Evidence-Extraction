@@ -1,6 +1,9 @@
 from tqdm import tqdm
 import re
 import json
+import os
+
+
 
 def preprocess_predict(unpreprocess_file, save_file):
     dataset = json.load(open(unpreprocess_file, 'r', encoding='utf-8'))
@@ -62,8 +65,15 @@ def preprocess_train(unpreprocess_file, save_file):
     
 
 def main():
+    trian_path = './datasets/train2'
+    if not os.path.isdir(trian_path):
+        os.mkdir(trian_path)
     preprocess_train('./datasets/unpreprocess/train.json', 
-                       './datasets/train/train.data')
+                       './datasets/train2/train.data')
+    
+    predict_path = './datasets/predict'
+    if not os.path.isdir(predict_path):
+        os.mkdir(predict_path)
     preprocess_predict('./datasets/unpreprocess/test.json', 
                        './datasets/predict/test.json')
 
