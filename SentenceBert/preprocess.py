@@ -3,7 +3,7 @@ import re
 import json
 
 dataset = json.load(open('./datasets/dev.json', 'r', encoding='utf-8'))
-save_file = open('./datasets/dev.data', 'w', encoding='utf-8')
+save_file = open('./datasets/dev.json', 'w', encoding='utf-8')
 
 
 for data in tqdm(dataset, desc='Preprocess...'):
