@@ -1,4 +1,8 @@
 # PromptBERT-Evidence-Extraction
+## Document Retrieval
+    python document_retrieval.py  
+`save` save evidence in file  
+`claim` type the claim you want to search  
 ## Training
     python main.py --train
 ## Predict Evidence 
