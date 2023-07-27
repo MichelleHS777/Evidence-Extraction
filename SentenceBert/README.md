@@ -1,7 +1,7 @@
 ## Training
     python main.py --train
 ## Predict Evidence 
-    python main.py --eval --test_data_path='datasets/predict/test.json' --save_file='datasets/evidences/promptbert/prompt_test.json'
+    python main.py --eval --test_data_path='./datasets/test.json' --save_file='./datasets/test_th08.json'
 ## Arguments 
 `--train_data_path` (default='./datasets/train/train.json')  
 `--test_data_path` (default='./datasets/predict/test.json')    
