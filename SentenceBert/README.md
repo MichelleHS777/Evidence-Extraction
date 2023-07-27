@@ -1,5 +1,6 @@
 ## Training
     python main.py --train
+* train file: [link](https://drive.google.com/drive/folders/1aYMOnt617G5zrlsy6mgYhtQMsUbOw63M?usp=sharing)
 ## Predict Evidence 
     python main.py --eval --test_data_path='./datasets/test.json' --save_file='./datasets/test_th08.json'
 ## Arguments 
