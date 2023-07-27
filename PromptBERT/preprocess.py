@@ -3,7 +3,7 @@ import re
 import json
 import os
 
-def preprocess_predict_json(unpreprocess_file, save_file):
+def preprocess_document(unpreprocess_file, save_file):
     dataset = open(unpreprocess_file, 'r', encoding='utf-8')
     save_file = open(save_file, 'w', encoding='utf-8')
     for data in tqdm(dataset, desc='Preprocess to predict file'):
@@ -22,7 +22,7 @@ def preprocess_predict_json(unpreprocess_file, save_file):
         save_file.write(data + "\n")
     save_file.close()
 
-def preprocess_predict(unpreprocess_file, save_file):
+def preprocess_predict_file(unpreprocess_file, save_file):
     dataset = json.load(open(unpreprocess_file, 'r', encoding='utf-8'))
     save_file = open(save_file, 'w', encoding='utf-8')
     for data in tqdm(dataset, desc='Preprocess to predict file'):
@@ -49,7 +49,7 @@ def preprocess_predict(unpreprocess_file, save_file):
         save_file.write(data + "\n")
     save_file.close()
 
-def preprocess_train(unpreprocess_file, save_file):
+def preprocess_train_file(unpreprocess_file, save_file):
     dataset = json.load(open(unpreprocess_file, 'r', encoding='utf-8'))
     save_file = open(save_file, 'w', encoding='utf-8')
     for data in tqdm(dataset, desc='Preprocess training data'):
@@ -82,18 +82,18 @@ def preprocess_train(unpreprocess_file, save_file):
     
 
 def main():
-    # trian_path = './datasets/train2'
-    # if not os.path.isdir(trian_path):
-    #     os.mkdir(trian_path)
-    # preprocess_train('./datasets/unpreprocess/train.json', 
-    #                    './datasets/train2/train.data')
+    trian_path = './datasets/train'
+    if not os.path.isdir(trian_path):
+        os.mkdir(trian_path)
+    preprocess_train_file('./datasets/unpreprocess/train.json', 
+                       './datasets/train/train.data')
     
-    # predict_path = './datasets/predict'
-    # if not os.path.isdir(predict_path):
-    #     os.mkdir(predict_path)
-    # preprocess_predict('./datasets/unpreprocess/test.json', 
-    #                    './datasets/predict/test.json')
-    preprocess_predict_json('./doc_covid_date.json', './sent_covid_date.json')
+    predict_path = './datasets/predict'
+    if not os.path.isdir(predict_path):
+        os.mkdir(predict_path)
+    preprocess_predict_file('./datasets/unpreprocess/test.json', 
+                       './datasets/predict/test.json')
+    # preprocess_document('./doc_covid_date.json', './sent_covid_date.json')
     
 
 if __name__ == "__main__":
