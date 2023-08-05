@@ -6,8 +6,8 @@
 ## Evidence Retrival
 ### Preprocess
 * `preprocess_document` a function that preprocesses document from search results to sentences
-* `preprocess_test_file` a function that get the evidence and split documents into sentences **(evidence and non-evidence)**       
-* `preprocess_train_file` a function that preprocesses train file into **claim, gold-evidence, non-evidence** (1 column)      
+* `preprocess_test_file` a function that get the evidence and split documents into sentences as `.data` (**(evidence and non-evidence)**)       
+* `preprocess_train_file` a function that preprocesses train file into `json` (**claim, gold-evidence, non-evidence** (1 column))      
 ### Training
     python main.py --train
 ### Predict Evidence 
