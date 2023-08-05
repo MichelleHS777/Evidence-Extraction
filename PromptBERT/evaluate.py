@@ -1,9 +1,16 @@
 from tqdm import tqdm
 import numpy as np
 import statistics
+import argparse
 
-pred_file = open('datasets/evidences/semantic/semantic_test_th08_nofilter.json', 'r', encoding='utf-8')
-gold_file = open('datasets/evidences/gold/gold_test.json', 'r', encoding='utf-8')
+# ------------------------init parameters----------------------------
+parser = argparse.ArgumentParser(description='Document Retrieval')
+parser.add_argument('--gold_file', type=str, default='datasets/evidences/gold/gold_test.json', help='gold file')
+parser.add_argument('--pred_file', type=str, default='datasets/evidences/semantic/semantic_test_th08_nofilter.json', help='predict file')
+args = parser.parse_args()
+
+pred_file = open(args.pred_file, 'r', encoding='utf-8')
+gold_file = open(args.gold_file, 'r', encoding='utf-8')
 
 precision = []
 recall = []
