@@ -5,9 +5,9 @@
 `--claim` type the claim you want to search (default='COVID-19疫苗研發突破：輝瑞與BioNTech合作疫苗獲得顯著效果')  
 ## Evidence Retrival
 ### Preprocess
-* `preprocess_document` a function that preprocesses document from search results    
-* `preprocess_test_file` a function that preprocesses test file we want to predict the evidences       
-* `preprocess_train_file` a function that preprocesses train file       
+* `preprocess_document` a function that preprocesses document from search results to sentences
+* `preprocess_test_file` a function that get the evidence and split documents into sentences **(evidence and non-evidence)**       
+* `preprocess_train_file` a function that preprocesses train file into **claim, gold-evidence, non-evidence** (1 column)      
 ### Training
     python main.py --train
 ### Predict Evidence 
