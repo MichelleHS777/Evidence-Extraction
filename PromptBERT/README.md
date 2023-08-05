@@ -23,5 +23,7 @@
 `--save_file_out5` save file for 5 evidence (default='./datasets/evidences/promptbert/prompt_test_claim_sent_out5.json')
 ## Evaluate Evidence 
     python evalaute.py 
+`--gold_file` set gold evidence path (default='datasets/evidences/gold/gold_test.json')    
+`--pred_file` set predict path (default='datasets/evidences/semantic/semantic_test_th08_nofilter.json')  
 ## Checkpoint
 * [Checkpoint](https://drive.google.com/file/d/19LqR07hAHxODc4NcmEX2ONRP-yVEFPto/view?usp=sharing)
