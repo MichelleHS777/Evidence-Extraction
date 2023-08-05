@@ -1,3 +1,7 @@
+## Preprocess
+    python preprocess.py 
+`--dataset` set dataset path you want to preprocess     
+`--save_file` set save path after preprocess 
 ## Training
     python main.py --train
 * Train file: [link](https://drive.google.com/drive/folders/1aYMOnt617G5zrlsy6mgYhtQMsUbOw63M?usp=sharing)
