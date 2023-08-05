@@ -22,7 +22,7 @@ def preprocess_document(unpreprocess_file, save_file):
         save_file.write(data + "\n")
     save_file.close()
 
-def preprocess_predict_file(unpreprocess_file, save_file):
+def preprocess_test_file(unpreprocess_file, save_file):
     dataset = json.load(open(unpreprocess_file, 'r', encoding='utf-8'))
     save_file = open(save_file, 'w', encoding='utf-8')
     for data in tqdm(dataset, desc='Preprocess to predict file'):
@@ -91,7 +91,7 @@ def main():
     predict_path = './datasets/predict'
     if not os.path.isdir(predict_path):
         os.mkdir(predict_path)
-    preprocess_predict_file('./datasets/unpreprocess/test.json', 
+    preprocess_test_file('./datasets/unpreprocess/test.json', 
                        './datasets/predict/test.json')
     # preprocess_document('./doc_covid_date.json', './sent_covid_date.json')
     
