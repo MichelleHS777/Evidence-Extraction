@@ -1,4 +1,6 @@
 # PromptBERT-Evidence-Extraction
+## Dataset
+* [Train File Link](https://drive.google.com/drive/folders/1PzNUsgSIr9uuZAg0zOuFVQ6jAHxywcW_?usp=sharing)
 ## Document Retrieval
     python document_retrieval.py    
 `--save_file` save documents in file (default='doc_covid.json')  
