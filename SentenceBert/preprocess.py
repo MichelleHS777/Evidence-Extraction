@@ -1,10 +1,16 @@
 from tqdm import tqdm
 import re
 import json
+import argparse
 
-dataset = json.load(open('./datasets/dev.json', 'r', encoding='utf-8'))
-save_file = open('./datasets/dev.json', 'w', encoding='utf-8')
+# ------------------------init parameters----------------------------
+parser = argparse.ArgumentParser(description='Preprocess Datasets')
+parser.add_argument('--dataset', type=str, default="'./datasets/test.json', help='dataset path')
+parser.add_argument('--save_file', type=str, default='datasets/test.json', help='save file path')
 
+args = parser.parse_args()
+dataset = json.load(open(args.dataset, 'r', encoding='utf-8'))
+save_file = open(args.save_file, 'w', encoding='utf-8')
 
 for data in tqdm(dataset, desc='Preprocess...'):
     claimId = data['claimId']
