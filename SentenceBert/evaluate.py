@@ -4,7 +4,7 @@ import statistics
 import argparse
 
 # ------------------------init parameters----------------------------
-parser = argparse.ArgumentParser(description='Document Retrieval')
+parser = argparse.ArgumentParser(description='Evaluation')
 parser.add_argument('--gold_file', type=str, default='datasets/evidences/gold/gold_test.json', help='gold file')
 parser.add_argument('--pred_file', type=str, default='datasets/evidences/semantic/semantic_test_th08_nofilter.json', help='predict file')
 args = parser.parse_args()
