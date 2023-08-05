@@ -5,7 +5,7 @@ import argparse
 
 # ------------------------init parameters----------------------------
 parser = argparse.ArgumentParser(description='Preprocess Datasets')
-parser.add_argument('--dataset', type=str, default="'./datasets/test.json', help='dataset path')
+parser.add_argument('--dataset', type=str, default="'./datasets/unpreprocess/test.json', help='dataset path')
 parser.add_argument('--save_file', type=str, default='datasets/predict/test.json', help='save file path')
 args = parser.parse_args()
 
