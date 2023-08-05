@@ -1,8 +1,8 @@
 # PromptBERT-Evidence-Extraction
 ## Document Retrieval
     python document_retrieval.py    
-`--save_file` save documents in file (**default='doc_covid.json'**)  
-`--claim` type the claim you want to search (**default='COVID-19疫苗研發突破：輝瑞與BioNTech合作疫苗獲得顯著效果'**)  
+`--save_file` save documents in file (default='doc_covid.json')  
+`--claim` type the claim you want to search (default='COVID-19疫苗研發突破：輝瑞與BioNTech合作疫苗獲得顯著效果')  
 ## Training
     python main.py --train
 ## Predict Evidence 
