@@ -21,5 +21,5 @@
 `--test_data_path` test file is **.json** (default='./datasets/predict/test.json')    
 `--save_file` save file for threshold=0.8 (default='./datasets/evidences/promptbert/prompt_test_claim_sent_th08.json')    
 `--save_file_out5` save file for 5 evidence (default='./datasets/evidences/promptbert/prompt_test_claim_sent_out5.json')
-## Predict Evidence 
+## Evaluate Evidence 
     python evalaute.py 
