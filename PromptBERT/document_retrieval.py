@@ -2,6 +2,8 @@ from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 import json
+import argparse
+
 # ------------------------init parameters----------------------------
 parser = argparse.ArgumentParser(description='Document Retrieval')
 parser.add_argument('--save_file', type=str, default='doc_covid.json', help='save document result from google search')
