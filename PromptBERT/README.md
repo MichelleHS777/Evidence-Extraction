@@ -1,5 +1,4 @@
 # PromptBERT-Evidence-Extraction
-## Checkporint
 ## Dataset
 * [Train File Link](https://drive.google.com/drive/folders/1PzNUsgSIr9uuZAg0zOuFVQ6jAHxywcW_?usp=sharing)
 ## Document Retrieval
@@ -24,3 +23,5 @@
 `--save_file_out5` save file for 5 evidence (default='./datasets/evidences/promptbert/prompt_test_claim_sent_out5.json')
 ## Evaluate Evidence 
     python evalaute.py 
+## Checkpoint
+* [Checkpoint](https://drive.google.com/file/d/19LqR07hAHxODc4NcmEX2ONRP-yVEFPto/view?usp=sharing)
