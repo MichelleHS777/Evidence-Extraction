@@ -1,1 +1,1 @@
-每個檔案包含sentenece(not evidence) 和 evidence
+Each file contains evidence sentences, non-evidence sentences and claim
