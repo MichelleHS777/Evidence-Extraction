@@ -11,3 +11,5 @@
 `--train_data_path` (default='./datasets/train/train.json')  
 `--test_data_path` (default='./datasets/predict/test.json')    
 `--save_file` save file for threshold=0.8 (default='./datasets/evidences/SBERT_test.json')    
+## Checkpoint
+* [Checkpoint](https://drive.google.com/drive/folders/1GTOh0e4krGQmEcdypIcNbstQ2ee591Ua?usp=sharing)
