@@ -17,5 +17,3 @@
 `--pred_file` set predict path (default='datasets/evidences/semantic/semantic_test_th08_nofilter.json') 
 ## Checkpoint
 * [Checkpoint](https://drive.google.com/drive/folders/1GTOh0e4krGQmEcdypIcNbstQ2ee591Ua?usp=sharing)
-## PLM
-[Please download roberta_pretrain here](https://drive.google.com/drive/folders/1hCXYnyEgArWKQaU14-XgDvECsu1ZgBCG?usp=sharing)
